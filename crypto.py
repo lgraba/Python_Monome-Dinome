@@ -39,6 +39,60 @@ class Text:
 				rval += " "
 		return rval
 
+# MonomeDinome class
+class MonomeDinome:
+	# Initialize with two keys
+	def __init__(self, dkw, lkw):
+		self.digitsKey = self.digitsScramble(dkw)
+		self.lettersKey = self.lettersScramble(lkw)
+
+	# digitsScramble() - 
+	def digitsScramble(self, dkw):
+		# Create a list with the digitsKeyword given, adding characters if necessary to make it 10 characters long
+		dkl = list((dkw.upper() + "ZZZZZZZZZZ")[0:10])
+
+		for i in "0123456789":
+			pos = self.findLowestLetter(dkl)
+			if pos != -1:
+				dkl[pos] = i
+
+		return "".join(dkl)
+
+	# findLowestLetter() - finds the lowest letter, alphabetically, in a list
+	def findLowestLetter(self, list):
+		pos = -1
+		lowest = ''
+
+		for i in range(len(list)):
+			if list[i].isalpha():
+				if (lowest == '') or (list[i] < lowest):
+					lowest = list[i]
+					pos = i
+
+		return pos
+
+	# lettersScramble() - combines W with/to V and J with/to I, outputs the whole alphabet with those combinations made??
+	def lettersScramble(self, lkw):
+		rlist = []
+		for a in lkw.upper():
+			if a == "W":
+				a = "V"
+			if a == "J":
+				a = "I"
+			if not a in rlist and a.isalpha():
+				rlist.append(a)
+
+		for a in "ABCDEFGHIKLMNOPQRSTUVXYZ":
+			if not a in rlist:
+				rlist.append(a)
+
+		return "".join(rlist)
+
+	# If the object is output as a string, return the two keys
+	def __str__(self):
+		return "digitsKey = " + self.digitsKey + "\n" + \
+			   "lettersKey = " + self.lettersKey
+
 # If we are executing this script and not importing it
 if __name__ == "__main__":
 
